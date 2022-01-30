@@ -31,14 +31,19 @@
 
       img{
         margin-right: 0.5rem;
+        cursor: pointer;
       }
 
     }
     p{
-      font-family: $play;
-      margin: 0 2rem 0 1rem;
       font-size: 2.25rem;
       font-weight: lighter;
+
+      margin: 0 2rem 0 1rem;
+
+      font-family: $play;
+      cursor: pointer;
+
     }
   }
 </style>

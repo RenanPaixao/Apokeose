@@ -1,11 +1,15 @@
 <template>
-  <div>
+  <div class="menu-container">
     <h2> <img alt="Profile" src="../assets/group-avatar.png"> Hello {{username}}!!</h2>
-    <router-link to="/">
-      <p>My Teams</p>
+    <router-link to="/" exact>
+      <p>
+        My Teams <div class="link-active-menu"/>
+      </p>
     </router-link>
     <router-link to="/pokedex">
-      <p>Pokedex</p>
+      <p>
+        Pokedex<div class="link-active-menu"/>
+      </p>
     </router-link>
   </div>
 </template>
@@ -17,7 +21,7 @@
 </script>
 
 <style lang="scss" scoped>
-  div{
+  .menu-container{
     display: flex;
     padding: 1rem 0;
 

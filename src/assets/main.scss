@@ -11,3 +11,15 @@ $primary-blue: #3DADFF;
 $roboto: Roboto;
 $play: Play;
 $russo: Russo One;
+
+.router-link-active {
+  .link-active-menu{
+    width: 50px;
+    height: 4px;
+    padding: 0;
+    margin-left: auto;
+    border-radius: 5px;
+
+    background-color: $primary;
+  }
+}

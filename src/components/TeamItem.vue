@@ -8,7 +8,6 @@
     </div>
   </div>
 </template>
-
 <script lang="ts" setup>
   const props = defineProps<{
     teamName: string
@@ -29,7 +28,7 @@
 
     background-color: $white;
     span{
-      width: 2px;
+      width: 3px;
       height: 2.5rem;
 
       background-color: $primary;

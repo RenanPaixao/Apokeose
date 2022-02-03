@@ -1,8 +1,12 @@
 <template>
   <div>
     <h2> <img alt="Profile" src="../assets/group-avatar.png"> Hello {{username}}!!</h2>
-    <p>My Teams</p>
-    <p>Pokedex</p>
+    <router-link to="/">
+      <p>My Teams</p>
+    </router-link>
+    <router-link to="/pokedex">
+      <p>Pokedex</p>
+    </router-link>
   </div>
 </template>
 
@@ -21,7 +25,10 @@
     background-color: $white;
     color: $title-black;
 
-
+    a{
+      color: $title-black;
+      text-decoration: none;
+    }
     h2{
       display: flex;
       font-family: $roboto;

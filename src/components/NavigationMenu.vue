@@ -1,14 +1,19 @@
 <template>
   <div>
-    <img class="back-arrow" src="../assets/back-arrow.png" alt="back">
+      <img @click="router.back()" class="back-arrow" src="../assets/back-arrow.png" alt="back">
     <h2> {{teamName}} <img src="../assets/edit.png" alt="edit team name"></h2>
   </div>
 </template>
 
 <script lang="ts" setup>
-  const props = defineProps<{
-    teamName: string,
-  }>()
+import { useRouter } from 'vue-router'
+
+  interface IProps {
+    teamName: string
+  }
+
+  const router = useRouter()
+  const props = defineProps<IProps>()
 </script>
 
 <style lang="scss" scoped>

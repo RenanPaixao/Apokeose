@@ -3,12 +3,14 @@
     <h2> <img alt="Profile" src="../assets/group-avatar.png"> Hello {{username}}!!</h2>
     <router-link to="/" exact>
       <p>
-        My Teams <div class="link-active-menu"/>
+        My Teams
+        <div class="link-active-menu"/>
       </p>
     </router-link>
-    <router-link to="/pokedex">
+    <router-link to="/pokedex" exact>
       <p>
-        Pokedex<div class="link-active-menu"/>
+        Pokedex
+        <div class="link-active-menu"/>
       </p>
     </router-link>
   </div>

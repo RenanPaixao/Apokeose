@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
-import TeamList from './components/TeamList.vue'
-import Pokedex from './components/Pokedex.vue'
-import NotFound from './components/NotFound.vue'
+import TeamList from './views/TeamList.vue'
+import Pokedex from './views/Pokedex.vue'
+import NotFound from './views/NotFound.vue'
 const routes = [
     {
         path: '/',

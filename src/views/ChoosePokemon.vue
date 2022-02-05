@@ -4,7 +4,7 @@
 </template>
 
 <script lang="ts" setup>
-  import PokemonCard from './PokemonCard.vue'
+  import PokemonCard from '../components/PokemonCard.vue'
 
 </script>
 

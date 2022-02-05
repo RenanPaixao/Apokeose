@@ -1,6 +1,9 @@
+import Team from './Team'
+import Pokemon from './Pokemon'
+
 export default interface State{
-    pokemons: object[],
-    teamsList: object[],
-    selectToShowTeam: number | null,
-    selectToEditTeam: number | null
+    pokemons: Pokemon[],
+    teamsList: Team[],
+    teamSelected: number | null,
+    isEditting: boolean
 }

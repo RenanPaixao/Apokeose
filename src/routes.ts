@@ -1,7 +1,9 @@
-import { createRouter, createWebHistory } from "vue-router"
+import {createRouter, createWebHistory} from "vue-router"
+import store from './store'
 import TeamList from './views/TeamList.vue'
-import Pokedex from './views/Pokedex.vue'
 import NotFound from './views/NotFound.vue'
+import Team from './views/Team.vue'
+
 const routes = [
     {
         path: '/',
@@ -9,14 +11,26 @@ const routes = [
         component: TeamList
     },
     {
+        path: '/team/:id',
+        name: 'Team',
+        component: Team,
+        beforeEnter(to, from) {
+            const id = store.getters.allTeamIds.find(id => id === parseInt(to.params.id)
+            )
+            if (!id) {
+                return {name: 'NotFound'}
+            }
+        }
+    },
+    {
         path: '/pokedex',
         name: 'Pokedex',
-        component: ()=> import('@/views/Pokedex.vue')
+        component: () => import('@/views/Pokedex.vue')
     },
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
-        component: import('@/views/NotFound.vue')
+        component: () => import('@/views/NotFound.vue')
     },
 ]
 

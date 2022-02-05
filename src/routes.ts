@@ -11,12 +11,12 @@ const routes = [
     {
         path: '/pokedex',
         name: 'Pokedex',
-        component: Pokedex
+        component: ()=> import('@/views/Pokedex.vue')
     },
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
-        component: NotFound
+        component: import('@/views/NotFound.vue')
     },
 ]
 

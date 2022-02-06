@@ -9,7 +9,7 @@ const routes = [
 		path: '/',
 		name: 'Home',
 		component: TeamList,
-		beforeEnter(to, from){
+		beforeEnter(){
 			store.dispatch('updateEditTeam', null)
 		}
 		
@@ -18,10 +18,10 @@ const routes = [
 		path: '/team/:id',
 		name: 'Team',
 		component: Team,
-		beforeEnter(to, from){
-			const id = store.getters.allTeamIds.find(id => id === parseInt(to.params.id)
+		beforeEnter(to:any, from:any){
+			const isValidId = store.getters.allTeamIds.find(id => id === parseInt(to.params.id)
 			)
-			if(!id){
+			if(!isValidId){
 				return { name: 'NotFound' }
 			}
 		}

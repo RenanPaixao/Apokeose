@@ -2,7 +2,7 @@
 	<div class="default-wrapper">
 		<Header/>
 		<Menu/>
-		<NavigationMenu teamName="Team Super Aquatic"/>
+		<NavigationMenu />
 		<router-view></router-view>
 	
 	</div>

@@ -1,16 +1,14 @@
 <template>
-  <div class="choose-pokemon-container">
-  </div>
+	<div class="choose-pokemon-container">
+		<h1>Choose pokemon</h1>
+	</div>
 </template>
 
-<script lang="ts" setup>
-  import PokemonCard from '../components/PokemonCard.vue'
-
-</script>
+<script lang="ts" setup></script>
 
 <style scoped>
-  .choose-pokemon-container{
-    display: flex;
-    justify-content: space-around;
-  }
+.choose-pokemon-container {
+	display: flex;
+	justify-content: space-around;
+}
 </style>

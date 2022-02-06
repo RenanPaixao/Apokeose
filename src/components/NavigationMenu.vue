@@ -1,41 +1,58 @@
 <template>
-  <div>
-      <img @click="router.back()" class="back-arrow" src="../assets/back-arrow.png" alt="back">
-    <h2> {{teamName}} <img src="../assets/edit.png" alt="edit team name"></h2>
-  </div>
+	<div v-if="teamSelected" class="container-navigation-menu">
+		<img alt="back" class="back-arrow" src="../assets/back-arrow.png" @click="goBack">
+		<h2>{{teamSelected.teamName}} <img alt="edit team name" src="../assets/edit.png"></h2>
+	</div>
+	<div v-else class="container-navigation-menu">
+		<h2 class="single-title"> My Teams</h2>
+	</div>
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
+import {useStore} from 'vuex'
+import {computed} from 'vue'
+const router = useRouter()
+const store = useStore()
 
-  interface IProps {
-    teamName: string
-  }
+const teamSelected = computed(() => store.getters.getTeamSelected)
 
-  const router = useRouter()
-  const props = defineProps<IProps>()
+function goBack() {
+	router.back()
+}
+
+
 </script>
 
 <style lang="scss" scoped>
-  div{
-    padding: 2rem 0;
-    font-size: 1.5rem;
-
-    display: flex;
-    justify-content: center;
-    font-family: $russo;
-    .back-arrow{
-      position: absolute;
-      left: 4rem;
-    }
-    img{
-      cursor: pointer;
-    }
-    h2{
-      img{
-        margin-left: 1rem;
-      }
-    }
-
-  }
+.container-navigation-menu {
+	padding: 2.5rem 0;
+	font-size: 1.5rem;
+	
+	display: grid;
+	grid-template-columns: 2fr 10fr 2fr;
+	font-family: $russo;
+	
+	.single-title{
+		grid-column: 2 / 3;
+	}
+	.back-arrow {
+		
+		align-self: center;
+		margin: 0 auto;
+	}
+	
+	img {
+		cursor: pointer;
+	}
+	
+	h2 {
+		margin: 0 auto;
+		
+		img {
+			margin-left: 1rem;
+		}
+	}
+	
+}
 </style>

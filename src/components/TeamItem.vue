@@ -3,18 +3,29 @@
 		<span/>
 		<h3>{{ teamName }}</h3>
 		<div class="actionsButtons">
-			<img alt="edit time" src="src/assets/edit.png">
+			<img alt="edit time" src="src/assets/edit.png" @click="goToTeam">
 			<img alt="delete time" src="src/assets/red-remove.png">
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 const props = defineProps<{
 	teamName: string,
 	id: number
 }>()
+
+const router = useRouter()
+const store = useStore()
+
+function goToTeam(){
+	store.dispatch('updateEditTeam', props.id)
+	router.push(`/team/${props.id}`)
+	
+}
 
 </script>
 

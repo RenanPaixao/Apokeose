@@ -1,40 +1,44 @@
-import {createRouter, createWebHistory} from "vue-router"
+import { createRouter, createWebHistory } from 'vue-router'
 import store from './store'
 import TeamList from './views/TeamList.vue'
 import NotFound from './views/NotFound.vue'
 import Team from './views/Team.vue'
 
 const routes = [
-    {
-        path: '/',
-        name: 'Home',
-        component: TeamList
-    },
-    {
-        path: '/team/:id',
-        name: 'Team',
-        component: Team,
-        beforeEnter(to, from) {
-            const id = store.getters.allTeamIds.find(id => id === parseInt(to.params.id)
-            )
-            if (!id) {
-                return {name: 'NotFound'}
-            }
-        }
-    },
-    {
-        path: '/pokedex',
-        name: 'Pokedex',
-        component: () => import('@/views/Pokedex.vue')
-    },
-    {
-        path: '/:pathMatch(.*)*',
-        name: 'NotFound',
-        component: () => import('@/views/NotFound.vue')
-    },
+	{
+		path: '/',
+		name: 'Home',
+		component: TeamList,
+		beforeEnter(to, from){
+			store.dispatch('updateEditTeam', null)
+		}
+		
+	},
+	{
+		path: '/team/:id',
+		name: 'Team',
+		component: Team,
+		beforeEnter(to, from){
+			const id = store.getters.allTeamIds.find(id => id === parseInt(to.params.id)
+			)
+			if(!id){
+				return { name: 'NotFound' }
+			}
+		}
+	},
+	{
+		path: '/pokedex',
+		name: 'Pokedex',
+		component: () => import('@/views/Pokedex.vue')
+	},
+	{
+		path: '/:pathMatch(.*)*',
+		name: 'NotFound',
+		component: () => import('@/views/NotFound.vue')
+	}
 ]
 
 export default createRouter({
-    history: createWebHistory(),
-    routes
+	history: createWebHistory(),
+	routes
 })

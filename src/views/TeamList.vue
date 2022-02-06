@@ -1,5 +1,6 @@
 <template>
 	<div class="container-spacing">
+		<button class="create-team-button">CREATE TEAM<img src="src/assets/white-plus.png"></button>
 		<TeamItem v-for="item in teamList" :teamName="item.teamName" :id="item.id" class="item-spacing"/>
 	</div>
 </template>
@@ -15,11 +16,32 @@ const teamList = store.state.teamsList
 
 <style lang="scss" scoped>
 .container-spacing {
-	margin-top: 3rem;
+	margin: 4rem 3.75rem 0;
+	
+	.create-team-button{
+		font-size: 1.2rem;
+		
+		display: flex;
+		align-items: center;
+		position: absolute;
+		padding: 1rem 1rem 1rem 1.2rem;
+		transform: translateY(-120%);
+		
+		background-color: $primary-blue;
+		font-family: $roboto;
+		border-radius: 10px;
+		color: $white;
+		cursor: pointer;
+		
+		img{
+			height: 1.4rem;
+			margin-left: 1rem;
+		}
+	}
 }
 
 .item-spacing {
-	margin: 1rem 3.75rem;
+	margin: 1rem 0;
 }
 
 </style>

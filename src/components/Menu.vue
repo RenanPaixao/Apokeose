@@ -1,6 +1,6 @@
 <template>
 	<div class="menu-container">
-		<h2><img alt="Profile" src="../assets/group-avatar.png"> Hello {{ username }}!!</h2>
+		<h2><img alt="Profile" src="../assets/group-avatar.png"> Hello Everton!!</h2>
 		<router-link exact to="/">
 			<p>
 				My Teams
@@ -17,9 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-
-const username = ref('Everton')
 </script>
 
 <style lang="scss" scoped>

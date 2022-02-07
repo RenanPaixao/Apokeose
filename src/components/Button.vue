@@ -1,11 +1,10 @@
 <template>
-  <button>{{title}}</button>
+  <button>
+	  <slot></slot>
+  </button>
 </template>
 
 <script lang="ts" setup>
-  const props = defineProps<{
-    title: string,
-  }>()
 </script>
 
 <style lang="scss" scoped>

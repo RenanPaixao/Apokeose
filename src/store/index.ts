@@ -35,6 +35,9 @@ export default createStore({
 			}
 			context.commit('selectTeamToShow', id)
 			context.commit('selectTeamToEdit', id)
+		},
+		updateTeamNameAction(context, payload){
+			context.commit('updateTeamNameMutation', payload)
 		}
 	},
 	mutations: {
@@ -43,6 +46,10 @@ export default createStore({
 		},
 		selectTeamToEdit(state: State, id?: number | null){
 			state.isEditting = id ? true : false
+		},
+		updateTeamNameMutation(state, payload){
+			const index = state.teamsList.findIndex((e:Team) => e.id === payload.id)
+			state.teamsList[index].teamName = payload.name
 		}
 	}
 })

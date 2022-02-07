@@ -1,6 +1,6 @@
 <template>
 	<div class="container-spacing">
-		<button class="create-team-button">CREATE TEAM<img src="src/assets/white-plus.png"></button>
+		<button class="create-team-button">CREATE TEAM<img src="../assets/white-plus.png" alt="plus symbol"></button>
 		<TeamItem v-for="item in teamList" :teamName="item.teamName" :id="item.id" class="item-spacing"/>
 	</div>
 </template>

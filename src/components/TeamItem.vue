@@ -3,8 +3,8 @@
 		<span/>
 		<h3>{{ teamName }}</h3>
 		<div class="actionsButtons">
-			<img alt="edit time" src="src/assets/edit.png" @click="goToTeam">
-			<img alt="delete time" src="src/assets/red-remove.png">
+			<img alt="edit time" src="../assets/edit.png" @click="goToTeam">
+			<img alt="delete time" src="../assets/red-remove.png">
 		</div>
 	</div>
 </template>

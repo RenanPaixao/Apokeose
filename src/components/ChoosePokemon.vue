@@ -3,9 +3,10 @@
 		<div class="choose-pokemon-container">
 			<div class="title-container">
 				<h2 class="title-choose"><img alt="pokeball" src="../assets/pokeball.png"/> Choose a pokemon</h2>
-				<img @click="closeModal" class="close-image" src="../assets/x-close.png" alt="exit"/>
+				<img alt="exit" class="close-image" src="../assets/x-close.png" @click="closeModal"/>
 			</div>
-			<PokemonCard v-for="pokemon in tempList" :pokemon="pokemon" class="card-spacing" :isEditing="false"/>
+			<PokemonCard v-for="pokemon in tempList" :isEditing="false" :pokemon="pokemon" class="card-spacing"
+			             @choosePokemon="choosePokemon"/>
 		</div>
 	</div>
 </template>
@@ -13,26 +14,36 @@
 <script lang="ts" setup>
 import PokemonCard from '../components/PokemonCard.vue'
 import tempPoke from '../store/tempPoke'
+import {useStore} from 'vuex'
 
+const store = useStore()
 const tempList = Array(20).fill(tempPoke)
 const emits = defineEmits(['closeChooseModal'])
 
 function closeModal(){
 	emits('closeChooseModal')
 }
+
+function choosePokemon(pokemon){
+	emits('closeChooseModal')
+	store.dispatch('addPokemonAction', pokemon)
+}
 </script>
 
 <style lang="scss" scoped>
 .overlay-choose-pokemon {
 	@include overlay;
+	
 	::-webkit-scrollbar {
 		width: 10px;
 	}
+	
 	::-webkit-scrollbar-track {
 		background: $white;
 		border-radius: 25px;
 		margin: 1rem 0;
 	}
+	
 	::-webkit-scrollbar-thumb {
 		background: $primary;
 		border-radius: 25px;
@@ -62,19 +73,21 @@ function closeModal(){
 		display: flex;
 		justify-content: space-between;
 		
-		.close-image{
+		.close-image {
 			align-self: center;
 			position: relative;
 			transform: translateY(-2rem);
 			
 			cursor: pointer;
 		}
+		
 		.title-choose {
 			display: flex;
 			align-items: center;
 			font-size: 2rem;
 			font-family: $russo;
-			img{
+			
+			img {
 				margin-right: 10px;
 			}
 		}

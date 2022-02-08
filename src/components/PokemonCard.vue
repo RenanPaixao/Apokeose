@@ -1,5 +1,5 @@
 <template>
-	<div class="container" :class="dynamicClasses.shrinkContainer">
+	<div class="container" :class="dynamicClasses.shrinkContainer" @click="choosePokemon(pokemon)">
 		<div>
 			<img :src="sprite" alt="Pokemon" class="pokemon-image" :class="dynamicClasses.centralizeImage"/>
 			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png">
@@ -11,9 +11,11 @@
 </template>
 
 <script lang="ts" setup>
-import Pokemon from '../interfaces/Pokemon'
+import {Pokemon} from '../interfaces'
 
 const props = defineProps<{ pokemon: Pokemon, isEditing?: boolean }>()
+const emits = defineEmits(['renamePokemon', 'choosePokemon'])
+
 const { name, surname, sprites, types } = props.pokemon
 const { type } = types[0]
 const sprite = sprites['official-artwork'].front_default
@@ -27,6 +29,13 @@ const dynamicClasses = {
 	shrinkContainer: props.isEditing ? '' : 'is-choosing-container'
 }
 
+function choosePokemon(pokemon:Pokemon){
+	if(props.isEditing){
+		return
+	}
+	emits('choosePokemon', pokemon)
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -36,6 +45,7 @@ const dynamicClasses = {
 .is-choosing-container{
 	width: 10rem !important;
 	height: 10rem !important;
+	cursor: pointer;
 }
 .container {
 	width: 11.875rem;

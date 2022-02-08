@@ -1,5 +1,21 @@
-import Team from './Team'
-import Pokemon from './Pokemon'
-import State from './State'
+export interface Pokemon{
+	abilities: object[],
+	id: number,
+	name: string,
+	types: object[],
+	surname?: string,
+	sprites: object
+}
 
-export default { Team, Pokemon, State }
+export interface Team{
+	id: number,
+	teamName: string,
+	pokemonsList: Pokemon[]
+}
+
+export default interface State{
+	pokemons: Pokemon[],
+	teamsList: Team[],
+	teamSelectedId: number | null,
+	isEditting: boolean
+}

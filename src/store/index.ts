@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { State, Team } from '../interfaces/State'
+import State, { Pokemon, Team } from '../interfaces'
 import ditto from './tempPoke'
 
 export default createStore({
@@ -16,9 +16,9 @@ export default createStore({
 		}
 	},
 	getters: {
-		getTeamSelected(state: State): Team | null{
+		getTeamSelected(state: State): Team | void{
 			if(!state.teamSelectedId){
-				return null
+				return
 			}
 			return state.teamsList.find(team => team.id === state.teamSelectedId)
 		},
@@ -38,6 +38,9 @@ export default createStore({
 		},
 		updateTeamNameAction(context, payload){
 			context.commit('updateTeamNameMutation', payload)
+		},
+		addPokemonAction({ commit }, pokemon){
+			commit('addPokemonMutation', pokemon)
 		}
 	},
 	mutations: {
@@ -47,12 +50,20 @@ export default createStore({
 		selectTeamToEdit(state: State, id?: number | null){
 			state.isEditting = id ? true : false
 		},
-		updateTeamNameMutation(state, payload){
+		updateTeamNameMutation(state: State, payload){
 			const index = state.teamsList.findIndex((e: Team) => e.id === payload.id)
 			if(index === -1){
 				throw new Error('This team does not exist!')
 			}
+			
 			state.teamsList[index].teamName = payload.name
+		},
+		addPokemonMutation({ teamsList, teamSelectedId }: State, pokemon: Pokemon){
+			const index = teamsList.findIndex((e: Team) => e.id === teamSelectedId)
+			if(index === -1){
+				throw new Error('Ocurred a error with select team. Try again!')
+			}
+			teamsList[index].pokemonsList.push(pokemon)
 		}
 	}
 })

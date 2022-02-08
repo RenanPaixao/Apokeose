@@ -13,7 +13,7 @@ import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import NavigationMenu from './components/NavigationMenu.vue'</script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .default-wrapper {
 	min-height: 100vh;
 	background-color: $background-gray;

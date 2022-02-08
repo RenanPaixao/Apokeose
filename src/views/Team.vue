@@ -1,7 +1,7 @@
 <template>
 	<div class="container-team">
 		<div v-for="pokemon in list">
-			<PokemonCard v-if="pokemon" :pokemon="pokemon"/>
+			<PokemonCard v-if="pokemon" :pokemon="pokemon" isEditing/>
 			<AddPokemon v-else @click="toggleIsChoosing"/>
 		</div>
 		<div v-if="isChoosing">

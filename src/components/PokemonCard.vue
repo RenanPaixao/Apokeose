@@ -1,11 +1,11 @@
 <template>
-	<div class="container">
+	<div class="container" :class="dynamicClasses.shrinkContainer">
 		<div>
-			<img :src="sprite" alt="Pokemon" class="pokemon-image"/>
-			<img alt="remove" class="remove-icon" src="../assets/gray-remove.png">
+			<img :src="sprite" alt="Pokemon" class="pokemon-image" :class="dynamicClasses.centralizeImage"/>
+			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png">
 		</div>
 		<p>Name: <span>{{ capitalize(name) }}</span></p>
-		<p>Surname: <span>{{ surname }}</span><img alt="edit" src="../assets/edit.png"></p>
+		<p v-if="isEditing">Surname: <span>{{ surname }}</span><img alt="edit" src="../assets/edit.png"></p>
 		<p class="type">Type:<span>{{ type.name }}</span></p>
 	</div>
 </template>
@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import Pokemon from '../interfaces/Pokemon'
 
-const props = defineProps<{ pokemon: Pokemon }>()
+const props = defineProps<{ pokemon: Pokemon, isEditing?: boolean }>()
 const { name, surname, sprites, types } = props.pokemon
 const { type } = types[0]
 const sprite = sprites['official-artwork'].front_default
@@ -21,9 +21,22 @@ const sprite = sprites['official-artwork'].front_default
 function capitalize(value: string):string{
 	return [value.charAt(0).toUpperCase(), ...value.split('').slice(1)].join('')
 }
+
+const dynamicClasses = {
+	centralizeImage: props.isEditing ? '' : 'is-choosing-image',
+	shrinkContainer: props.isEditing ? '' : 'is-choosing-container'
+}
+
 </script>
 
 <style lang="scss" scoped>
+.is-choosing-image{
+	margin: 0 auto 1rem !important;
+}
+.is-choosing-container{
+	width: 10rem !important;
+	height: 10rem !important;
+}
 .container {
 	width: 11.875rem;
 	height: 12rem;
@@ -45,7 +58,7 @@ function capitalize(value: string):string{
 			height: 5rem;
 			width: 5rem;
 			
-			margin: 0 2rem 0 auto;
+			margin: 0 1.5rem 0 auto;
 		}
 		
 		.remove-icon {
@@ -63,7 +76,7 @@ function capitalize(value: string):string{
 		font-weight: bold;
 		
 		display: flex;
-		margin: 0.3rem 0 0 1.3rem;
+		margin: 0.3rem 0 0 1.88rem;
 		color: $primary;
 		font-family: $play;
 		

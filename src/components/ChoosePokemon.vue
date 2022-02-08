@@ -5,7 +5,7 @@
 				<h2 class="title-choose"><img alt="pokeball" src="../assets/pokeball.png"/> Choose a pokemon</h2>
 				<img @click="closeModal" class="close-image" src="../assets/x-close.png" alt="exit"/>
 			</div>
-			<PokemonCard v-for="pokemon in tempList" :pokemon="pokemon" class="card-spacing"/>
+			<PokemonCard v-for="pokemon in tempList" :pokemon="pokemon" class="card-spacing" :isEditing="false"/>
 		</div>
 	</div>
 </template>

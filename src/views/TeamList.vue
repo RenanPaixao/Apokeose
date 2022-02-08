@@ -32,6 +32,7 @@ const teamList = store.state.teamsList
 		border-radius: 10px;
 		color: $white;
 		cursor: pointer;
+		border: none;
 		
 		img{
 			height: 1.4rem;

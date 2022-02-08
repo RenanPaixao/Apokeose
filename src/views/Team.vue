@@ -23,7 +23,10 @@ const store = useStore()
 const router = useRouter()
 let isChoosing = ref(false)
 const list = computed(() => {
-		const { pokemonsList } = store.getters.getTeamSelected
+		const pokemonsList = store.getters.getTeamSelected?.pokemonsList
+		if(!pokemonsList){
+			return
+		}
 		const addPokemonArray = Array(4)
 		return [...pokemonsList, ...addPokemonArray].slice(0, 4)
 	}

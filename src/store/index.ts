@@ -5,7 +5,6 @@ import ditto from './tempPoke'
 export default createStore({
 	state(): State{
 		return {
-			pokemons: [ditto],
 			teamsList: [
 				{ id: 1, teamName: 'Team Super Aquatic', pokemonsList: [ditto, ditto, ditto] },
 				{ id: 2, teamName: 'Team Galaxy', pokemonsList: [ditto] },
@@ -41,6 +40,10 @@ export default createStore({
 		},
 		addPokemonAction({ commit }, pokemon){
 			commit('addPokemonMutation', pokemon)
+		},
+		removePokemonAction({commit, getters}, pokemonId){
+			const index = getters.getTeamSelected.pokemonsList.findIndex((e:Pokemon) => e.id === pokemonId)
+			commit('removePokemonMutation', index)
 		}
 	},
 	mutations: {
@@ -64,6 +67,10 @@ export default createStore({
 				throw new Error('Ocurred a error with select team. Try again!')
 			}
 			teamsList[index].pokemonsList.push(pokemon)
+		},
+		removePokemonMutation({teamsList, teamSelectedId}, pokemonIndex:number){
+			const index = teamsList.findIndex((e: Team) => e.id === teamSelectedId)
+			teamsList[index].pokemonsList.splice(pokemonIndex, 1)
 		}
 	}
 })

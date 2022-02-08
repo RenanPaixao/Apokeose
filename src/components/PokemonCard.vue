@@ -2,7 +2,7 @@
 	<div class="container" :class="dynamicClasses.shrinkContainer" @click="choosePokemon(pokemon)">
 		<div>
 			<img :src="sprite" alt="Pokemon" class="pokemon-image" :class="dynamicClasses.centralizeImage"/>
-			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png">
+			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png" @click="removePokemon(pokemon)">
 		</div>
 		<p>Name: <span>{{ capitalize(name) }}</span></p>
 		<p v-if="isEditing">Surname: <span>{{ surname }}</span><img alt="edit" src="../assets/edit.png"></p>
@@ -14,7 +14,7 @@
 import {Pokemon} from '../interfaces'
 
 const props = defineProps<{ pokemon: Pokemon, isEditing?: boolean }>()
-const emits = defineEmits(['renamePokemon', 'choosePokemon'])
+const emits = defineEmits(['renamePokemon', 'choosePokemon', 'removePokemon'])
 
 const { name, surname, sprites, types } = props.pokemon
 const { type } = types[0]
@@ -34,6 +34,9 @@ function choosePokemon(pokemon:Pokemon){
 		return
 	}
 	emits('choosePokemon', pokemon)
+}
+function removePokemon(pokemon:Pokemon){
+	emits('removePokemon', pokemon.id)
 }
 
 </script>

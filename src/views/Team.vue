@@ -1,7 +1,7 @@
 <template>
 	<div class="container-team">
 		<div v-for="pokemon in list">
-			<PokemonCard v-if="pokemon" :pokemon="pokemon" isEditing/>
+			<PokemonCard v-if="pokemon" :pokemon="pokemon" isEditing @removePokemon="removePokemon"/>
 			<AddPokemon v-else @click="toggleIsChoosing"/>
 		</div>
 		<div v-if="isChoosing">
@@ -34,6 +34,10 @@ const list = computed(() => {
 
 function toggleIsChoosing(){
 	isChoosing.value = !isChoosing.value
+}
+
+function removePokemon(pokemonId: number){
+	store.dispatch('removePokemonAction', pokemonId)
 }
 </script>
 

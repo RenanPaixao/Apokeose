@@ -14,7 +14,6 @@ export interface Team{
 }
 
 export default interface State{
-	pokemons: Pokemon[],
 	teamsList: Team[],
 	teamSelectedId: number | null,
 	isEditting: boolean

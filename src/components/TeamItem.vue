@@ -4,7 +4,7 @@
 		<h3>{{ teamName }}</h3>
 		<div class="actionsButtons">
 			<img alt="edit time" src="../assets/edit.png" @click="goToTeam">
-			<img alt="delete time" src="../assets/red-remove.png">
+			<img alt="delete time" src="../assets/red-remove.png" @click="removeTeam">
 		</div>
 	</div>
 </template>
@@ -15,16 +15,19 @@ import { useStore } from 'vuex'
 
 const props = defineProps<{
 	teamName: string,
-	id: number
+	teamId: number
 }>()
 
 const router = useRouter()
 const store = useStore()
 
 function goToTeam(){
-	store.dispatch('updateEditTeam', props.id)
-	router.push(`/team/${props.id}`)
+	store.dispatch('updateEditTeam', props.teamId)
+	router.push(`/team/${props.teamId}`)
 	
+}
+function removeTeam(){
+	store.dispatch('removeTeamAction', props.teamId)
 }
 
 </script>

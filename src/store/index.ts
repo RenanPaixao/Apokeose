@@ -47,6 +47,9 @@ export default createStore({
 		renamePokemonAction({commit, state}, pokemonInformation: {pokemonId: number, pokemonIndex: number, newSurname:string}){
 			const teamIndex = state.teamsList.findIndex((e:Team) => e.id === state.teamSelectedId)
 			commit('renamePokemonMutation', { teamIndex, ...pokemonInformation })
+		},
+		removeTeamAction({commit}, teamId){
+			commit('removeTeamMutation', teamId)
 		}
 	},
 	mutations: {
@@ -77,6 +80,10 @@ export default createStore({
 		},
 		renamePokemonMutation({teamsList, teamSelectedId}, {teamIndex, pokemonIndex, newSurname}){
 			teamsList[teamIndex].pokemonsList[pokemonIndex].surname = newSurname
+		},
+		removeTeamMutation({ teamsList }, teamId){
+			const index = teamsList.findIndex((e) => e.id === teamId)
+			teamsList.splice(index, 1)
 		}
 	}
 })

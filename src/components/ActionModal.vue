@@ -38,8 +38,9 @@ function cancel(){
 	emits('cancel')
 }
 function rename(){
-	const newName = document.getElementById('rename-input').value
-	emits('rename', newName)
+	let inputValue = document.getElementById('rename-input').value
+	emits('rename', inputValue)
+	inputValue = ''
 }
 
 </script>

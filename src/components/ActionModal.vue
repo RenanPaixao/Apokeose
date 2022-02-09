@@ -40,6 +40,7 @@ function cancel(){
 function rename(){
 	let inputValue = document.getElementById('rename-input').value
 	emits('rename', inputValue)
+	//for some reason, the input keep the first value saved every time that is re-rendered after build
 	inputValue = ''
 }
 

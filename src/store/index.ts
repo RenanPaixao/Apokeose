@@ -1,14 +1,19 @@
 import { createStore } from 'vuex'
 import State, { Pokemon, Team } from '../interfaces'
 import ditto from './tempPoke'
+import { generateId } from '../Common/idGenerator'
 
 export default createStore({
 	state(): State{
 		return {
 			teamsList: [
-				{ id: 1, teamName: 'Team Super Aquatic', pokemonsList: [{...ditto}, {...ditto}, {...ditto}] },
-				{ id: 2, teamName: 'Team Galaxy', pokemonsList: [{...ditto}] },
-				{ id: 3, teamName: 'The Super Team', pokemonsList: [] }
+				{
+					id: generateId.next().value as number,
+					teamName: 'Team Super Aquatic',
+					pokemonsList: [{ ...ditto }, { ...ditto }, { ...ditto }]
+				},
+				{ id: generateId.next().value as number, teamName: 'Team Galaxy', pokemonsList: [{ ...ditto }] },
+				{ id: generateId.next().value as number, teamName: 'The Super Team', pokemonsList: [] }
 			],
 			teamSelectedId: null,
 			isEditting: false
@@ -41,15 +46,21 @@ export default createStore({
 		addPokemonAction({ commit }, pokemon){
 			commit('addPokemonMutation', pokemon)
 		},
-		removePokemonAction({commit, getters}, pokemonIndex){
+		removePokemonAction({ commit, getters }, pokemonIndex){
 			commit('removePokemonMutation', pokemonIndex)
 		},
-		renamePokemonAction({commit, state}, pokemonInformation: {pokemonId: number, pokemonIndex: number, newSurname:string}){
-			const teamIndex = state.teamsList.findIndex((e:Team) => e.id === state.teamSelectedId)
+		renamePokemonAction({
+			                    commit,
+			                    state
+		                    }, pokemonInformation: { pokemonId: number, pokemonIndex: number, newSurname: string }){
+			const teamIndex = state.teamsList.findIndex((e: Team) => e.id === state.teamSelectedId)
 			commit('renamePokemonMutation', { teamIndex, ...pokemonInformation })
 		},
-		removeTeamAction({commit}, teamId){
+		removeTeamAction({ commit }, teamId){
 			commit('removeTeamMutation', teamId)
+		},
+		createTeamAction({ commit }, teamName){
+			commit('createTeamMutation', teamName)
 		}
 	},
 	mutations: {
@@ -74,16 +85,19 @@ export default createStore({
 			}
 			teamsList[index].pokemonsList.push(pokemon)
 		},
-		removePokemonMutation({teamsList, teamSelectedId}, pokemonIndex:number){
+		removePokemonMutation({ teamsList, teamSelectedId }, pokemonIndex: number){
 			const index = teamsList.findIndex((e: Team) => e.id === teamSelectedId)
 			teamsList[index].pokemonsList.splice(pokemonIndex, 1)
 		},
-		renamePokemonMutation({teamsList, teamSelectedId}, {teamIndex, pokemonIndex, newSurname}){
+		renamePokemonMutation({ teamsList, teamSelectedId }, { teamIndex, pokemonIndex, newSurname }){
 			teamsList[teamIndex].pokemonsList[pokemonIndex].surname = newSurname
 		},
 		removeTeamMutation({ teamsList }, teamId){
 			const index = teamsList.findIndex((e) => e.id === teamId)
 			teamsList.splice(index, 1)
+		},
+		createTeamMutation({ teamsList }: State, teamName){
+			teamsList.push({ id: generateId.next().value as number, teamName: teamName, pokemonsList: [] })
 		}
 	}
 })

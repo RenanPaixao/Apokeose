@@ -19,7 +19,7 @@ const routes = [
 		name: 'Team',
 		component: Team,
 		beforeEnter(to:any, from:any){
-			const isValidId = store.getters.allTeamIds.find(id => id === parseInt(to.params.id)
+			const isValidId = store.getters.allTeamIds.find((id: number) => id === parseInt(to.params.id)
 			)
 			if(!isValidId){
 				return { name: 'NotFound' }

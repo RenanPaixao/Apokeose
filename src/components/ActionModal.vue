@@ -3,9 +3,9 @@
 		<div class="container-action-modal">
 			<h3>{{ title }}</h3>
 			<div v-if="isRename" class="rename">
-				<input id="rename-input" type="text">
+				<input id="rename-input" type="text" autocomplete="off">
 				<button class="cancel" @click="cancel">Cancel</button>
-				<button @click="renameTeam">Save</button>
+				<button @click="rename">Save</button>
 			</div>
 			<div v-else>
 				<button class="cancel">Cancel</button>
@@ -18,9 +18,9 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 const props = defineProps<{
-	type: string
+	type: 'rename' | 'delete'
 }>()
-const emits = defineEmits(['cancel', 'renameTeam'])
+const emits = defineEmits(['cancel', 'rename'])
 
 const isRename = props.type === 'rename'
 const title = computed(() => {
@@ -37,9 +37,9 @@ const title = computed(() => {
 function cancel(){
 	emits('cancel')
 }
-function renameTeam(){
+function rename(){
 	const newName = document.getElementById('rename-input').value
-	emits('renameTeam', newName)
+	emits('rename', newName)
 }
 
 </script>
@@ -57,7 +57,8 @@ function renameTeam(){
 		
 		h3 {
 			white-space: nowrap;
-			margin-bottom: 1rem;
+			margin: 0 auto 1rem;
+			font-family: $russo;
 		}
 		
 		.rename {

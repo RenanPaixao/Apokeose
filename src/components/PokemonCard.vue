@@ -1,24 +1,32 @@
 <template>
-	<div class="container" :class="dynamicClasses.shrinkContainer" @click="choosePokemon(pokemon)">
+	<div class="container" :class="dynamicClasses.shrinkContainer" @click="choosePokemon">
 		<div>
 			<img :src="sprite" alt="Pokemon" class="pokemon-image" :class="dynamicClasses.centralizeImage"/>
-			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png" @click="removePokemon(pokemon)">
+			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png" @click="removePokemon">
 		</div>
 		<p>Name: <span>{{ capitalize(name) }}</span></p>
-		<p v-if="isEditing">Surname: <span>{{ surname }}</span><img alt="edit" src="../assets/edit.png"></p>
+		<p v-if="isEditing" @click="toggleRenameModal">Surname: <span>{{ surname }}</span><img alt="edit" src="../assets/edit.png"></p>
 		<p class="type">Type:<span>{{ type.name }}</span></p>
+		<ActionModal v-if="isRenaming" type="rename" @rename="renamePokemon" @cancel="toggleRenameModal"/>
+		
 	</div>
 </template>
 
 <script lang="ts" setup>
 import {Pokemon} from '../interfaces'
+import {useStore} from 'vuex'
+import {ref} from 'vue'
+import ActionModal from '../components/ActionModal.vue'
 
-const props = defineProps<{ pokemon: Pokemon, isEditing?: boolean }>()
-const emits = defineEmits(['renamePokemon', 'choosePokemon', 'removePokemon'])
+const props = defineProps<{ pokemon: Pokemon, pokemonIndex?:number, isEditing?: boolean }>()
+const emits = defineEmits(['renamePokemon', 'choosePokemon', 'removePokemon', 'renamePokemon'])
+const store = useStore()
 
 const { name, surname, sprites, types } = props.pokemon
 const { type } = types[0]
 const sprite = sprites['official-artwork'].front_default
+
+const isRenaming = ref(false)
 
 function capitalize(value: string):string{
 	return [value.charAt(0).toUpperCase(), ...value.split('').slice(1)].join('')
@@ -29,14 +37,28 @@ const dynamicClasses = {
 	shrinkContainer: props.isEditing ? '' : 'is-choosing-container'
 }
 
-function choosePokemon(pokemon:Pokemon){
+function choosePokemon(){
 	if(props.isEditing){
 		return
 	}
-	emits('choosePokemon', pokemon)
+	emits('choosePokemon', props.pokemon)
 }
-function removePokemon(pokemon:Pokemon){
-	emits('removePokemon', pokemon.id)
+function toggleRenameModal(){
+	isRenaming.value = !isRenaming.value
+}
+function removePokemon(){
+	emits('removePokemon', props.pokemonIndex)
+}
+function renamePokemon(newPokemonSurname: string){
+	const pokemonInformations:{pokemonId: number, newSurname:string} = {
+		pokemonId: props.pokemon.id,
+		pokemonIndex: props.pokemonIndex,
+		newSurname: newPokemonSurname
+	}
+	store.dispatch('renamePokemonAction', pokemonInformations)
+	
+	emits('renamePokemon')
+	toggleRenameModal()
 }
 
 </script>

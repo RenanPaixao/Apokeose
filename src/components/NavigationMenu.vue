@@ -2,7 +2,7 @@
 	<div v-if="teamSelected" class="container-navigation-menu">
 		<img alt="back" class="back-arrow" src="../assets/back-arrow.png" @click="goBack">
 		<h2>{{teamSelected.teamName}} <img @click="toggleModal" alt="edit team name" src="../assets/edit.png"></h2>
-		<ActionModal v-if="isRenaming" type="rename" @cancel="toggleModal" @renameTeam="renameTeam"/>
+		<ActionModal v-if="isRenaming" type="rename" @cancel="toggleModal" @rename="renameTeam"/>
 	</div>
 	<div v-else class="container-navigation-menu">
 		<h2 class="single-title"> My Teams</h2>

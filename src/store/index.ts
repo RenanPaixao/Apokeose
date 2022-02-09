@@ -6,8 +6,8 @@ export default createStore({
 	state(): State{
 		return {
 			teamsList: [
-				{ id: 1, teamName: 'Team Super Aquatic', pokemonsList: [ditto, ditto, ditto] },
-				{ id: 2, teamName: 'Team Galaxy', pokemonsList: [ditto] },
+				{ id: 1, teamName: 'Team Super Aquatic', pokemonsList: [{...ditto}, {...ditto}, {...ditto}] },
+				{ id: 2, teamName: 'Team Galaxy', pokemonsList: [{...ditto}] },
 				{ id: 3, teamName: 'The Super Team', pokemonsList: [] }
 			],
 			teamSelectedId: null,
@@ -41,9 +41,12 @@ export default createStore({
 		addPokemonAction({ commit }, pokemon){
 			commit('addPokemonMutation', pokemon)
 		},
-		removePokemonAction({commit, getters}, pokemonId){
-			const index = getters.getTeamSelected.pokemonsList.findIndex((e:Pokemon) => e.id === pokemonId)
-			commit('removePokemonMutation', index)
+		removePokemonAction({commit, getters}, pokemonIndex){
+			commit('removePokemonMutation', pokemonIndex)
+		},
+		renamePokemonAction({commit, state}, pokemonInformation: {pokemonId: number, pokemonIndex: number, newSurname:string}){
+			const teamIndex = state.teamsList.findIndex((e:Team) => e.id === state.teamSelectedId)
+			commit('renamePokemonMutation', { teamIndex, ...pokemonInformation })
 		}
 	},
 	mutations: {
@@ -71,6 +74,9 @@ export default createStore({
 		removePokemonMutation({teamsList, teamSelectedId}, pokemonIndex:number){
 			const index = teamsList.findIndex((e: Team) => e.id === teamSelectedId)
 			teamsList[index].pokemonsList.splice(pokemonIndex, 1)
+		},
+		renamePokemonMutation({teamsList, teamSelectedId}, {teamIndex, pokemonIndex, newSurname}){
+			teamsList[teamIndex].pokemonsList[pokemonIndex].surname = newSurname
 		}
 	}
 })

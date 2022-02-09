@@ -1,7 +1,8 @@
 <template>
-	<div class="container-team">
-		<div v-for="pokemon in list">
-			<PokemonCard v-if="pokemon" :pokemon="pokemon" isEditing @removePokemon="removePokemon"/>
+	<div :key="key" class="container-team">
+		<div v-for="(pokemon, index) in list">
+			<PokemonCard v-if="pokemon" :pokemon="pokemon" :pokemonIndex="index" isEditing @removePokemon="removePokemon"
+			             @renamePokemon="listReRender"/>
 			<AddPokemon v-else @click="toggleIsChoosing"/>
 		</div>
 		<div v-if="isChoosing">
@@ -21,6 +22,7 @@ import ChoosePokemon from '../components/ChoosePokemon.vue'
 
 const store = useStore()
 const router = useRouter()
+let key = ref(false)
 let isChoosing = ref(false)
 const list = computed(() => {
 		const pokemonsList = store.getters.getTeamSelected?.pokemonsList
@@ -36,8 +38,13 @@ function toggleIsChoosing(){
 	isChoosing.value = !isChoosing.value
 }
 
-function removePokemon(pokemonId: number){
-	store.dispatch('removePokemonAction', pokemonId)
+function removePokemon(pokemonIndex: number){
+	store.dispatch('removePokemonAction', pokemonIndex)
+	listReRender()
+}
+
+function listReRender(){
+	key.value = !key.value
 }
 </script>
 

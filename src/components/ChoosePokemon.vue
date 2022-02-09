@@ -17,7 +17,7 @@ import tempPoke from '../store/tempPoke'
 import {useStore} from 'vuex'
 
 const store = useStore()
-const tempList = Array(20).fill(tempPoke)
+const tempList = Array(20).fill({ ...tempPoke })
 const emits = defineEmits(['closeChooseModal'])
 
 function closeModal(){
@@ -26,7 +26,7 @@ function closeModal(){
 
 function choosePokemon(pokemon){
 	emits('closeChooseModal')
-	store.dispatch('addPokemonAction', pokemon)
+	store.dispatch('addPokemonAction', {...pokemon})
 }
 </script>
 

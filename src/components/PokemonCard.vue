@@ -5,18 +5,19 @@
 			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png" @click="removePokemon">
 		</div>
 		<p>Name: <span>{{ nameCapitalized }}</span></p>
-		<p v-if="isEditing">Surname: <span>{{ surname }}</span><img alt="edit" src="../assets/edit.png"
-		                                                            @click.stop="toggleRenameModal"></p>
+		<p v-if="isEditing">Surname:<span class="surname" @click.stop="toggleRenameModal">{{ surname }}</span>
+			<img alt="edit" src="../assets/edit.png">
+		</p>
 		<p class="type">Type:<span>{{ type }}</span></p>
 		<ActionModal v-if="isRenaming" type="rename" @cancel="toggleRenameModal" @rename="renamePokemon"/>
-		<MoreInformation :pokemon="pokemon" v-if="isShowingInformations"/>
+		<MoreInformation v-if="isShowingInformations" :pokemon="pokemon"/>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import MoreInformation from './MoreInformation.vue'
 import { Pokemon } from '../interfaces'
-import {capitalize} from '../Common/capitalize'
+import { capitalize } from '../Common/capitalize'
 import { useStore } from 'vuex'
 import { ref } from 'vue'
 import ActionModal from '../components/ActionModal.vue'
@@ -49,6 +50,7 @@ function handleCardClick(){
 function toggleShowingInformations(){
 	isShowingInformations.value = !isShowingInformations.value
 }
+
 function removePokemon(){
 	emits('removePokemon', props.pokemonIndex)
 }
@@ -75,7 +77,8 @@ function renamePokemon(newPokemonSurname: string){
 .is-choosing-image {
 	margin: 0 auto 1rem !important;
 }
-.is-choosing-container{
+
+.is-choosing-container {
 	width: 10rem !important;
 	height: 10rem !important;
 	cursor: pointer;
@@ -136,6 +139,9 @@ function renamePokemon(newPokemonSurname: string){
 		color: $title-black;
 		margin: 0 0.3rem;
 	}
+		.surname {
+			cursor: pointer;
+		}
 	
 	p.type {
 		font-family: $roboto;

@@ -3,7 +3,7 @@
 		<span/>
 		<h3>{{ teamName }}</h3>
 		<div class="actionsButtons">
-			<img alt="edit time" src="../assets/edit.png" @click="goToTeam">
+			<img class="edit-team" alt="edit time" src="../assets/edit.png" @click="goToTeam">
 			<img alt="delete time" src="../assets/red-remove.png" @click="removeTeam">
 		</div>
 	</div>

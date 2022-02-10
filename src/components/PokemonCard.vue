@@ -1,15 +1,15 @@
 <template>
 	<div :class="dynamicClasses.shrinkContainer" class="container" @click="handleCardClick">
 		<div>
+			<ActionModal v-if="isRenaming" type="rename" @cancel="toggleRenameModal" @rename="renamePokemon"/>
 			<img :class="dynamicClasses.centralizeImage" :src="sprite" alt="Pokemon" class="pokemon-image"/>
 			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png" @click="removePokemon">
 		</div>
 		<p>Name: <span>{{ nameCapitalized }}</span></p>
-		<p v-if="isEditing">Surname:<span class="surname" @click.stop="toggleRenameModal">{{ surname }}</span>
-			<img alt="edit" src="../assets/edit.png">
+		<p v-if="isEditing">Surname:<span class="surname">{{ surname }}</span>
+			<img alt="edit" src="../assets/edit.png" @click.stop="toggleRenameModal">
 		</p>
 		<p class="type">Type:<span>{{ type }}</span></p>
-		<ActionModal v-if="isRenaming" type="rename" @cancel="toggleRenameModal" @rename="renamePokemon"/>
 		<MoreInformation v-if="isShowingInformations" :pokemon="pokemon"/>
 	</div>
 </template>
@@ -40,7 +40,9 @@ const dynamicClasses = {
 }
 
 function handleCardClick(){
-	if(props.isEditing){
+	const showInformations = !isShowingInformations.value && !isRenaming.value
+	
+	if(props.isEditing && showInformations){
 		toggleShowingInformations()
 		return
 	}
@@ -139,9 +141,10 @@ function renamePokemon(newPokemonSurname: string){
 		color: $title-black;
 		margin: 0 0.3rem;
 	}
-		.surname {
-			cursor: pointer;
-		}
+	
+	.surname {
+		cursor: pointer;
+	}
 	
 	p.type {
 		font-family: $roboto;

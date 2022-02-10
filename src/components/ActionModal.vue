@@ -1,5 +1,5 @@
 <template>
-	<div class="overlay-action-modal" >
+	<div class="overlay-action-modal" @click.self>
 		<div class="container-action-modal" @click.stop>
 			<h3>{{ title }}</h3>
 			<div v-if="isRename" class="rename">

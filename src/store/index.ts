@@ -98,7 +98,7 @@ export default createStore({
 			teamsList.splice(index, 1)
 		},
 		createTeamMutation({ teamsList }: State, teamName){
-			teamsList.push({ id: generateId.next().value as number, teamName: teamName, pokemonsList: [] })
+			teamsList.unshift({ id: generateId.next().value as number, teamName: teamName, pokemonsList: [] })
 		}
 	}
 })

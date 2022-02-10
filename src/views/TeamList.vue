@@ -1,9 +1,9 @@
 <template>
 	<div class="container-spacing">
 		<button class="create-team-button" @click="toggleModal">CREATE TEAM<img alt="plus symbol"
-		                                                                       src="../assets/white-plus.png"></button>
+		                                                                        src="../assets/white-plus.png"></button>
 		<TeamItem v-for="item in teamList" :teamId="item.id" :teamName="item.teamName" class="item-spacing"/>
-		<ActionModal v-if="isRenaming" type="rename" @cancel="toggleModal" @rename="createTeam" />
+		<ActionModal v-if="isRenaming" type="rename" @cancel="toggleModal" @rename="createTeam"/>
 	</div>
 </template>
 
@@ -12,22 +12,29 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import ActionModal from '../components/ActionModal.vue'
 import TeamItem from '../components/TeamItem.vue'
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 const store = useStore()
 const router = useRouter()
 const teamList = store.state.teamsList
 
+const editClass = document.getElementsByClassName('edit-team')
 let isRenaming = ref(false)
 
 function toggleModal(){
 	isRenaming.value = !isRenaming.value
 }
-
 function createTeam(newTeamName){
-	store.dispatch('createTeamAction', newTeamName)
-	toggleModal()
+	
+	return new Promise<any>(resolve => {
+		store.dispatch('createTeamAction', newTeamName)
+		resolve()
+	}).then(()=>{
+		toggleModal()
+		editClass[0].click()
+	})
 }
+
 </script>
 
 <style lang="scss" scoped>

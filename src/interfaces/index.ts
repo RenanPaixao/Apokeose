@@ -4,7 +4,10 @@ export interface Pokemon{
 	name: string,
 	types: object[],
 	surname?: string,
-	sprites: object
+	sprites: object,
+	stats: object[],
+	weight: number,
+	height: number
 }
 
 export interface Team{

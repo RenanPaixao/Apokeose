@@ -1,7 +1,8 @@
 import { createStore } from 'vuex'
 import State, { Pokemon, Team } from '../interfaces'
 import ditto from './tempPoke'
-import { generateId } from '../Common/idGenerator'
+import { idGenerator } from '../Common/idGenerator'
+const generateId = idGenerator()
 
 export default createStore({
 	state(): State{

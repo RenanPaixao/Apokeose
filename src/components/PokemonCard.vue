@@ -1,56 +1,64 @@
 <template>
-	<div class="container" :class="dynamicClasses.shrinkContainer" @click="choosePokemon">
+	<div :class="dynamicClasses.shrinkContainer" class="container" @click="handleCardClick">
 		<div>
-			<img :src="sprite" alt="Pokemon" class="pokemon-image" :class="dynamicClasses.centralizeImage"/>
+			<img :class="dynamicClasses.centralizeImage" :src="sprite" alt="Pokemon" class="pokemon-image"/>
 			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png" @click="removePokemon">
 		</div>
-		<p>Name: <span>{{ capitalize(name) }}</span></p>
-		<p v-if="isEditing" @click="toggleRenameModal">Surname: <span>{{ surname }}</span><img alt="edit" src="../assets/edit.png"></p>
-		<p class="type">Type:<span>{{ type.name }}</span></p>
-		<ActionModal v-if="isRenaming" type="rename" @rename="renamePokemon" @cancel="toggleRenameModal"/>
-		
+		<p>Name: <span>{{ nameCapitalized }}</span></p>
+		<p v-if="isEditing">Surname: <span>{{ surname }}</span><img alt="edit" src="../assets/edit.png"
+		                                                            @click.stop="toggleRenameModal"></p>
+		<p class="type">Type:<span>{{ type }}</span></p>
+		<ActionModal v-if="isRenaming" type="rename" @cancel="toggleRenameModal" @rename="renamePokemon"/>
+		<MoreInformation :pokemon="pokemon" v-if="isShowingInformations"/>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import {Pokemon} from '../interfaces'
-import {useStore} from 'vuex'
-import {ref} from 'vue'
+import MoreInformation from './MoreInformation.vue'
+import { Pokemon } from '../interfaces'
+import {capitalize} from '../Common/capitalize'
+import { useStore } from 'vuex'
+import { ref } from 'vue'
 import ActionModal from '../components/ActionModal.vue'
 
-const props = defineProps<{ pokemon: Pokemon, pokemonIndex?:number, isEditing?: boolean }>()
-const emits = defineEmits(['renamePokemon', 'choosePokemon', 'removePokemon', 'renamePokemon'])
+const props = defineProps<{ pokemon: Pokemon, pokemonIndex?: number, isEditing?: boolean }>()
+const emits = defineEmits(['renamePokemon', 'choosePokemon', 'removePokemon', 'renamePokemon', 'showingInformation'])
 const store = useStore()
 
 const { name, surname, sprites, types } = props.pokemon
-const { type } = types[0]
+const type = types[0].type.name
+const nameCapitalized = capitalize(name)
 const sprite = sprites['official-artwork'].front_default
 
 const isRenaming = ref(false)
-
-function capitalize(value: string):string{
-	return [value.charAt(0).toUpperCase(), ...value.split('').slice(1)].join('')
-}
+const isShowingInformations = ref(false)
 
 const dynamicClasses = {
 	centralizeImage: props.isEditing ? '' : 'is-choosing-image',
 	shrinkContainer: props.isEditing ? '' : 'is-choosing-container'
 }
 
-function choosePokemon(){
+function handleCardClick(){
 	if(props.isEditing){
+		toggleShowingInformations()
 		return
 	}
 	emits('choosePokemon', props.pokemon)
 }
-function toggleRenameModal(){
-	isRenaming.value = !isRenaming.value
+
+function toggleShowingInformations(){
+	isShowingInformations.value = !isShowingInformations.value
 }
 function removePokemon(){
 	emits('removePokemon', props.pokemonIndex)
 }
+
+function toggleRenameModal(){
+	isRenaming.value = !isRenaming.value
+}
+
 function renamePokemon(newPokemonSurname: string){
-	const pokemonInformations:{pokemonId: number, newSurname:string} = {
+	const pokemonInformations: { pokemonId: number, newSurname: string } = {
 		pokemonId: props.pokemon.id,
 		pokemonIndex: props.pokemonIndex,
 		newSurname: newPokemonSurname
@@ -64,7 +72,7 @@ function renamePokemon(newPokemonSurname: string){
 </script>
 
 <style lang="scss" scoped>
-.is-choosing-image{
+.is-choosing-image {
 	margin: 0 auto 1rem !important;
 }
 .is-choosing-container{
@@ -72,6 +80,7 @@ function renamePokemon(newPokemonSurname: string){
 	height: 10rem !important;
 	cursor: pointer;
 }
+
 .container {
 	width: 11.875rem;
 	height: 12rem;

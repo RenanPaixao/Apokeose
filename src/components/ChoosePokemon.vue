@@ -41,7 +41,7 @@ function choosePokemon(pokemon){
 	::-webkit-scrollbar-track {
 		background: $white;
 		border-radius: 25px;
-		margin: 1rem 0;
+		margin: 2rem 0;
 	}
 	
 	::-webkit-scrollbar-thumb {

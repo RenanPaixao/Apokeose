@@ -1,21 +1,19 @@
 import { createStore } from 'vuex'
+import VuexPersist from 'vuex-persist'
 import State, { Pokemon, Team } from '../interfaces'
 import ditto from './tempPoke'
 import { idGenerator } from '../Common/idGenerator'
-const generateId = idGenerator()
+
+const localStorageData = JSON.parse(<any>localStorage.getItem('vuex'))
+const generateId = idGenerator(localStorageData?.teamsList.reduce((acum: number, team:Team)=> {
+	return team.id > acum ? team.id + 1 : acum
+	}, 0)
+)
 
 export default createStore({
 	state(): State{
 		return {
-			teamsList: [
-				{
-					id: generateId.next().value as number,
-					teamName: 'Team Super Aquatic',
-					pokemonsList: [{ ...ditto }, { ...ditto }, { ...ditto }]
-				},
-				{ id: generateId.next().value as number, teamName: 'Team Galaxy', pokemonsList: [{ ...ditto }] },
-				{ id: generateId.next().value as number, teamName: 'The Super Team', pokemonsList: [] }
-			],
+			teamsList: [],
 			teamSelectedId: null,
 			isEditting: false
 		}
@@ -100,5 +98,10 @@ export default createStore({
 		createTeamMutation({ teamsList }: State, teamName){
 			teamsList.unshift({ id: generateId.next().value as number, teamName: teamName, pokemonsList: [] })
 		}
-	}
+	},
+	plugins: [
+		new VuexPersist({
+			storage: window.localStorage
+		}).plugin
+	]
 })

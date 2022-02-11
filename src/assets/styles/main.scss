@@ -36,3 +36,19 @@ $russo: Russo One;
   justify-content: center;
   align-items: center;
 }
+@mixin scrollBar{
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $white;
+    border-radius: 25px;
+    margin: 2rem 0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $primary;
+    border-radius: 25px;
+  }
+}

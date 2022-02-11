@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from './store'
 import TeamList from './views/TeamList.vue'
-import NotFound from './views/NotFound.vue'
 import Team from './views/Team.vue'
+import Http from './services/Api'
 
 const routes = [
 	{
@@ -25,6 +25,11 @@ const routes = [
 				return { name: 'NotFound' }
 			}
 		}
+	},
+	{
+		path: '/details',
+		name: 'Details',
+		component: () => import('@/views/Details.vue')
 	},
 	{
 		path: '/pokedex',

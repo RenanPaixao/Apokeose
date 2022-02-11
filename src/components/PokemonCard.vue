@@ -10,7 +10,7 @@
 			<img alt="edit" src="../assets/edit.png" @click.stop="toggleRenameModal">
 		</p>
 		<p class="type">Type:<span>{{ type }}</span></p>
-		<MoreInformation v-if="isShowingInformations" :pokemon="pokemon"/>
+		<MoreInformation v-if="isShowingInformations" :pokemon="pokemon" @close="toggleShowingInformations"/>
 	</div>
 </template>
 

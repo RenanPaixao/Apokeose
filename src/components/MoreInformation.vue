@@ -1,6 +1,9 @@
 <template>
 	<div class="more-information-overlay">
 		<div class="more-information-card" @click.stop>
+			<div class="x-image-container">
+				<img class="x-image-container" alt="exit" src="../assets/x-close.png" @click="closeModal"/>
+			</div>
 			<img :src="sprite" alt="pokemon"/>
 			<p class="poke-name">Name: {{ name }}</p>
 			<div class="list">
@@ -13,16 +16,18 @@
 				Stats:
 				<div>
 					<p v-for="(stat) in stats" class="stats-list">
-						<span>{{stat.stat}}</span>
+						<span>{{ stat.stat }}</span>
 					</p>
 				</div>
 			</div>
+			<Button class="button-align" @click="closeModal">CLOSE</Button>
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import { Pokemon } from '../interfaces'
+import Button from '../components/Button.vue'
 import { capitalize } from '../Common/capitalize'
 import { idGenerator } from '../Common/idGenerator'
 
@@ -33,8 +38,13 @@ const props = defineProps<{
 
 const generateId = idGenerator()
 const { ...pokemon }: Pokemon = props.pokemon
+const emits = defineEmits(['close'])
 
-const stats = pokemon.stats.reduce((acum, item) => [...acum, { stat: `${item.stat.name}: ${item.base_stat}`}], [])
+function closeModal(){
+	emits('close')
+}
+
+const stats = pokemon.stats.reduce((acum, item) => [...acum, { stat: `${item.stat.name}: ${item.base_stat}` }], [])
 const abilities = pokemon.abilities
 const type = pokemon.types[0].type.name
 const name = capitalize(pokemon.name)
@@ -71,7 +81,7 @@ const sprite = pokemon.sprites['official-artwork'].front_default
 		max-height: 90vh;
 		overflow: auto;
 		
-		.poke-name{
+		.poke-name {
 			font-size: 2rem;
 			padding-top: 1rem;
 			text-align: center;
@@ -106,6 +116,26 @@ const sprite = pokemon.sprites['official-artwork'].front_default
 				}
 			}
 		}
+		
+		.x-image-container {
+			margin: 0;
+			display: flex;
+			justify-content: flex-end;
+			width: 100%;
+			
+			img {
+				height: 3rem;
+				width: 3rem;
+				cursor: pointer;
+				margin: 2rem;
+			}
+		}
+	}
+	
+	.button-align {
+		font-size: 1.2rem;
+		display: block;
+		margin: 3rem auto 0;
 	}
 	
 }

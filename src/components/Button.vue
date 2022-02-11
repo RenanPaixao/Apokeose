@@ -14,5 +14,8 @@ button{
   background-color: $primary-blue;
   color: $white;
   border-radius: 10px;
+	font-family: $roboto;
+	
+	cursor: pointer;
 }
 </style>

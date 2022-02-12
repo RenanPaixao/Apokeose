@@ -3,6 +3,7 @@ import VuexPersist from 'vuex-persist'
 import State, { Pokemon, Team } from '../interfaces'
 import ditto from './tempPoke'
 import { idGenerator } from '../Common/idGenerator'
+import Http from '../services/Api'
 
 const localStorageData = JSON.parse(<any>localStorage.getItem('vuex'))
 const generateId = idGenerator(localStorageData?.teamsList.reduce((acum: number, team:Team)=> {
@@ -13,6 +14,7 @@ const generateId = idGenerator(localStorageData?.teamsList.reduce((acum: number,
 export default createStore({
 	state(): State{
 		return {
+			pokemonsList: [],
 			teamsList: [],
 			teamSelectedId: null,
 			isEditting: false

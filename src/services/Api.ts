@@ -7,18 +7,18 @@ interface ListConfig {
 
 class Http{
 	static service = axios.create({
-		baseURL: process.env.VITE_BASE_URL,
+		baseURL: 'https://pokeapi.co/api/v2/',
 		timeout: 2000
 	})
 	
-	static async get(resource: string, config?: AxiosRequestConfig){
-		return await Http.service(resource, config)
+	static get(resource: string, config?: AxiosRequestConfig){
+		return Http.service.get(resource, config)
 	}
-	static async getPokemon(identificator:string|number){
-		return await Http.get(`/pokemon/${identificator}`)
+	static getPokemon(identificator:string|number){
+		return  Http.get(`pokemon/${identificator}`)
 	}
 	static async getPokemonList({ length, initialValue = 0 }:ListConfig){
-		return await Http.get(`pokemon?limit=${length}&offset=${initialValue}`)
+		return  Http.get(`pokemon?limit=${length}&offset=${initialValue}`)
 	}
 }
 

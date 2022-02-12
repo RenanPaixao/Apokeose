@@ -11,7 +11,8 @@ interface PokemonStracted{
 	}[],
 	types: string[],
 	name: string,
-	sprite: string | null
+	sprite: string | null,
+	id: number
 }
 
 export function pokemonPropertiersStractor(pokemon: Pokemon): PokemonStracted{
@@ -22,6 +23,7 @@ export function pokemonPropertiersStractor(pokemon: Pokemon): PokemonStracted{
 	const types = pokemon.types.map(type => type.type.name)
 	const name = capitalize(pokemon.name)
 	const sprite = pokemon.sprites.other['official-artwork'].front_default
+	const id = pokemon.id
 	
-	return { stats, abilities, types, name, sprite }
+	return { stats, abilities, types, name, sprite, id }
 }

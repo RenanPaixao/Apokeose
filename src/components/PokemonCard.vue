@@ -39,7 +39,7 @@ const dynamicClasses = {
 }
 
 function handleCardClick(){
-	const showInformations = !isShowingInformations.value && !isRenaming.value
+	const showInformations = !isRenaming.value
 	
 	if(props.isEditing && showInformations){
 		router.push({name: 'Details', params: {id: props.pokemon.id}})

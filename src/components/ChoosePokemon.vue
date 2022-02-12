@@ -5,7 +5,7 @@
 				<h2 class="title-choose"><img alt="pokeball" src="../assets/pokeball.png"/> Choose a pokemon</h2>
 				<img alt="exit" class="close-image" src="../assets/x-close.png" @click="closeModal"/>
 			</div>
-			<PokemonCard v-for="pokemon in tempList" :isEditing="false" :pokemon="pokemon" class="card-spacing"
+			<PokemonCard v-for="pokemon in chooseList" :isEditing="false" :pokemon="pokemon" class="card-spacing"
 			             @choosePokemon="choosePokemon"/>
 		</div>
 	</div>
@@ -13,12 +13,17 @@
 
 <script lang="ts" setup>
 import PokemonCard from '../components/PokemonCard.vue'
-import tempPoke from '../store/tempPoke'
 import {useStore} from 'vuex'
+import {ref, onMounted} from 'vue'
+import Http from '../services/Api'
 
 const store = useStore()
-const tempList = Array(20).fill({ ...tempPoke })
+const chooseList = ref([])
 const emits = defineEmits(['closeChooseModal'])
+
+onMounted(async ()=>{
+	chooseList.value = await Http.getPokemonList({length:20})
+})
 
 function closeModal(){
 	emits('closeChooseModal')
@@ -39,7 +44,7 @@ function choosePokemon(pokemon){
 	}
 	
 	::-webkit-scrollbar-track {
-		background: $white;
+		background: rgba(0,0,0,0);
 		border-radius: 25px;
 		margin: 2rem 0;
 	}
@@ -65,11 +70,13 @@ function choosePokemon(pokemon){
 	
 	.card-spacing {
 		margin-top: 1rem;
+		padding-right: 2rem;
+		padding-left: 1rem;
 	}
 	
 	.title-container {
 		grid-column: 1 / 5;
-		margin: 3rem 1rem 0;
+		margin: 3rem 0;
 		display: flex;
 		justify-content: space-between;
 		

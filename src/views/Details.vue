@@ -23,7 +23,7 @@
 import { onMounted, ref} from 'vue'
 import { idGenerator } from '../Common/idGenerator'
 import { useRoute } from 'vue-router'
-import { pokemonPropertiersStractor } from '../Common/pokemonPropertiersStractor'
+import { pokemonPropertiesExtractor } from '../Common/pokemonPropertiersStractor'
 import Http from '../services/Api'
 
 const route = useRoute()
@@ -39,7 +39,7 @@ const generateId = idGenerator()
 
 onMounted(async() => {
 	const { data } = await Http.getPokemon(route.params.id)
-	pokemon.value = pokemonPropertiersStractor(data)
+	pokemon.value = pokemonPropertiesExtractor(data)
 	isFetching.value = false
 })
 

@@ -2,36 +2,37 @@
 	<div :class="dynamicClasses.shrinkContainer" class="container" @click="handleCardClick">
 		<div>
 			<ActionModal v-if="isRenaming" type="rename" @cancel="toggleRenameModal" @rename="renamePokemon"/>
-			<img :class="dynamicClasses.centralizeImage" :src="sprite" alt="Pokemon" class="pokemon-image"/>
-			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png" @click.stop="removePokemon">
+			<img :class="dynamicClasses.centralizeImage" :src="pokeExtracted.sprite" alt="Pokemon" class="pokemon-image"/>
+			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png"
+			     @click.stop="removePokemon">
 		</div>
-		<p>Name: <span>{{ nameCapitalized }}</span></p>
-		<p v-if="isEditing">Surname:<span class="surname">{{ surname }}</span>
+		<p>Name: <span>{{ pokeExtracted.name }}</span></p>
+		<p v-if="isEditing">Surname:<span class="surname">{{ pokeExtracted.surname }}</span>
 			<img alt="edit" src="../assets/edit.png" @click.stop="toggleRenameModal">
 		</p>
-		<p class="type">Type:<span>{{ type }}</span></p>
+		<p class="type">Type:<span>{{ pokeExtracted.types }}</span></p>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import { Pokemon } from '../interfaces'
-import { capitalize } from '../Common/capitalize'
 import { useStore } from 'vuex'
-import {useRouter} from 'vue-router'
-import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { onBeforeMount, ref } from 'vue'
 import ActionModal from '../components/ActionModal.vue'
+import { pokemonPropertiesExtractor } from '../Common/pokemonPropertiersStractor'
 
 const props = defineProps<{ pokemon: Pokemon, pokemonIndex?: number, isEditing?: boolean }>()
 const emits = defineEmits(['renamePokemon', 'choosePokemon', 'removePokemon', 'renamePokemon', 'showingInformation'])
 const store = useStore()
 const router = useRouter()
 
-const { name, surname, sprites, types } = props.pokemon
-const type = types[0].type.name
-const nameCapitalized = capitalize(name)
-const sprite = sprites['official-artwork'].front_default
-
 const isRenaming = ref(false)
+const pokeExtracted = ref({})
+
+onBeforeMount(() => {
+	pokeExtracted.value = pokemonPropertiesExtractor(props.pokemon)
+})
 
 const dynamicClasses = {
 	centralizeImage: props.isEditing ? '' : 'is-choosing-image',
@@ -42,7 +43,7 @@ function handleCardClick(){
 	const showInformations = !isRenaming.value
 	
 	if(props.isEditing && showInformations){
-		router.push({name: 'Details', params: {id: props.pokemon.id}})
+		router.push({ name: 'Details', params: { id: props.pokemon.id } })
 		return
 	}
 	emits('choosePokemon', props.pokemon)
@@ -73,7 +74,7 @@ function renamePokemon(newPokemonSurname: string){
 
 <style lang="scss" scoped>
 .is-choosing-image {
-	margin: 0 auto 1rem !important;
+	margin: 0 2rem 1rem auto !important;
 }
 
 .is-choosing-container {
@@ -95,6 +96,8 @@ function renamePokemon(newPokemonSurname: string){
 	border-radius: 8px;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 	cursor: pointer;
+	overflow: hidden;
+	
 	div {
 		display: flex;
 		align-items: center;
@@ -140,6 +143,9 @@ function renamePokemon(newPokemonSurname: string){
 	
 	.surname {
 		cursor: pointer;
+		max-width: 7ch;
+		text-overflow: clip;
+		overflow: hidden;
 	}
 	
 	p.type {
@@ -148,7 +154,7 @@ function renamePokemon(newPokemonSurname: string){
 		
 		span {
 			color: $primary-blue;
-			margin-left: 0.3rem;
+			white-space: nowrap;
 		}
 	}
 }

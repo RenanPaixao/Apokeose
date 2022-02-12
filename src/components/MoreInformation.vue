@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import { Pokemon } from '../interfaces'
-import Button from '../components/Button.vue'
+import Button from './Button.vue'
 import { capitalize } from '../Common/capitalize'
 import { idGenerator } from '../Common/idGenerator'
 
@@ -54,20 +54,7 @@ const sprite = pokemon.sprites['official-artwork'].front_default
 <style lang="scss" scoped>
 .more-information-overlay {
 	@include overlay;
-	::-webkit-scrollbar {
-		width: 10px;
-	}
-	
-	::-webkit-scrollbar-track {
-		background: $white;
-		border-radius: 25px;
-		margin: 2rem 0;
-	}
-	
-	::-webkit-scrollbar-thumb {
-		background: $primary;
-		border-radius: 25px;
-	}
+	@include scrollBar;
 	.more-information-card {
 		width: 40.875rem;
 		font-size: 1.2rem;

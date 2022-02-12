@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from './store'
+import {onMounted} from 'vue'
 import TeamList from './views/TeamList.vue'
 import Team from './views/Team.vue'
 import Http from './services/Api'
@@ -27,9 +28,16 @@ const routes = [
 		}
 	},
 	{
-		path: '/details',
+		path: '/details/:id',
 		name: 'Details',
-		component: () => import('@/views/Details.vue')
+		component: () => import('@/views/Details.vue'),
+		beforeEnter(to:any, from:any){
+			const isValidId = parseInt(to.params.id) > 0 && parseInt(to.params.id) <= 898 ? true : false
+			
+			if(!isValidId){
+				return { name: 'NotFound' }
+			}
+		}
 	},
 	{
 		path: '/pokedex',

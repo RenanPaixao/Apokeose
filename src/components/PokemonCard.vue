@@ -3,28 +3,28 @@
 		<div>
 			<ActionModal v-if="isRenaming" type="rename" @cancel="toggleRenameModal" @rename="renamePokemon"/>
 			<img :class="dynamicClasses.centralizeImage" :src="sprite" alt="Pokemon" class="pokemon-image"/>
-			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png" @click="removePokemon">
+			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png" @click.stop="removePokemon">
 		</div>
 		<p>Name: <span>{{ nameCapitalized }}</span></p>
 		<p v-if="isEditing">Surname:<span class="surname">{{ surname }}</span>
 			<img alt="edit" src="../assets/edit.png" @click.stop="toggleRenameModal">
 		</p>
 		<p class="type">Type:<span>{{ type }}</span></p>
-		<MoreInformation v-if="isShowingInformations" :pokemon="pokemon" @close="toggleShowingInformations"/>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import MoreInformation from './MoreInformation.vue'
 import { Pokemon } from '../interfaces'
 import { capitalize } from '../Common/capitalize'
 import { useStore } from 'vuex'
+import {useRouter} from 'vue-router'
 import { ref } from 'vue'
 import ActionModal from '../components/ActionModal.vue'
 
 const props = defineProps<{ pokemon: Pokemon, pokemonIndex?: number, isEditing?: boolean }>()
 const emits = defineEmits(['renamePokemon', 'choosePokemon', 'removePokemon', 'renamePokemon', 'showingInformation'])
 const store = useStore()
+const router = useRouter()
 
 const { name, surname, sprites, types } = props.pokemon
 const type = types[0].type.name
@@ -32,7 +32,6 @@ const nameCapitalized = capitalize(name)
 const sprite = sprites['official-artwork'].front_default
 
 const isRenaming = ref(false)
-const isShowingInformations = ref(false)
 
 const dynamicClasses = {
 	centralizeImage: props.isEditing ? '' : 'is-choosing-image',
@@ -43,15 +42,12 @@ function handleCardClick(){
 	const showInformations = !isShowingInformations.value && !isRenaming.value
 	
 	if(props.isEditing && showInformations){
-		toggleShowingInformations()
+		router.push({name: 'Details', params: {id: props.pokemon.id}})
 		return
 	}
 	emits('choosePokemon', props.pokemon)
 }
 
-function toggleShowingInformations(){
-	isShowingInformations.value = !isShowingInformations.value
-}
 
 function removePokemon(){
 	emits('removePokemon', props.pokemonIndex)
@@ -98,7 +94,7 @@ function renamePokemon(newPokemonSurname: string){
 	background-color: $white;
 	border-radius: 8px;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-	
+	cursor: pointer;
 	div {
 		display: flex;
 		align-items: center;

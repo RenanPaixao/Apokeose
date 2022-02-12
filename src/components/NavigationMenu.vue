@@ -1,28 +1,31 @@
 <template>
-	<div v-if="teamSelected" class="container-navigation-menu">
-		<img alt="back" class="back-arrow" src="../assets/back-arrow.png" @click="goBack">
-		<h2>{{teamSelected.teamName}} <img @click="toggleModal" alt="edit team name" src="../assets/edit.png"></h2>
-		<ActionModal v-if="isRenaming" type="rename" @cancel="toggleModal" @rename="renameTeam"/>
-	</div>
-	<div v-else class="container-navigation-menu">
-		<h2 class="single-title"> My Teams</h2>
-	</div>
+		<div v-if="teamSelected" class="container-navigation-menu">
+			<img alt="back" class="back-arrow" src="../assets/back-arrow.png" @click="goBack">
+			<h2>{{ teamSelected.teamName }} <img v-if="!isInDetailsPage" alt="edit team name" src="../assets/edit.png" @click="toggleModal"></h2>
+			<ActionModal v-if="isRenaming" type="rename" @cancel="toggleModal" @rename="renameTeam"/>
+		</div>
+		<div v-else class="container-navigation-menu">
+			<h2 class="single-title"> My Teams</h2>
+		</div>
 </template>
 
 <script lang="ts" setup>
 import ActionModal from '../components/ActionModal.vue'
-import {useRouter} from 'vue-router'
-import {useStore} from 'vuex'
-import {computed, ref} from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { computed, ref } from 'vue'
+
 const router = useRouter()
+const route = useRoute()
 const store = useStore()
 
 const isRenaming = ref(false)
 const teamSelected = computed(() => store.getters.getTeamSelected)
 
-function goBack() {
+function goBack(){
 	router.back()
 }
+
 function toggleModal(){
 	isRenaming.value = !isRenaming.value
 }
@@ -37,6 +40,7 @@ function renameTeam(name){
 	
 }
 
+const isInDetailsPage = computed(() => route.path.includes('details'))
 
 
 </script>
@@ -50,7 +54,7 @@ function renameTeam(name){
 	grid-template-columns: 2fr 10fr 2fr;
 	font-family: $russo;
 	
-	.single-title{
+	.single-title {
 		grid-column: 2 / 3;
 	}
 	.back-arrow {

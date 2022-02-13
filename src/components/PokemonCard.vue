@@ -6,11 +6,15 @@
 			<img v-if="isEditing" alt="remove" class="remove-icon" src="../assets/gray-remove.png"
 			     @click.stop="removePokemon">
 		</div>
-		<p>Name: <span>{{ pokeExtracted.name }}</span></p>
+		<p v-if="!isShowingButtons">Name: <span>{{ pokeExtracted.name }}</span></p>
 		<p v-if="isEditing">Surname:<span class="surname">{{ pokeExtracted.surname }}</span>
 			<img alt="edit" src="../assets/edit.png" @click.stop="toggleRenameModal">
 		</p>
-		<p class="type">Type:<span>{{ pokeExtracted.types }}</span></p>
+		<p v-if="!isShowingButtons" class="type">Type:<span>{{ pokeExtracted.types }}</span></p>
+		<div v-if="isShowingButtons" class="buttons-container">
+			<Button class="choose-button" @click="choosePokemon">Choose</Button>
+			<Button class="details-button" @click="goToDetails">Details...</Button>
+		</div>
 	</div>
 </template>
 
@@ -20,6 +24,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { onBeforeMount, ref } from 'vue'
 import ActionModal from '../components/ActionModal.vue'
+import Button from '../components/Button.vue'
 import { pokemonPropertiesExtractor } from '../Common/pokemonPropertiersStractor'
 
 const props = defineProps<{ pokemon: Pokemon, pokemonIndex?: number, isEditing?: boolean }>()
@@ -27,6 +32,7 @@ const emits = defineEmits(['renamePokemon', 'choosePokemon', 'removePokemon', 'r
 const store = useStore()
 const router = useRouter()
 
+const isShowingButtons = ref(false)
 const isRenaming = ref(false)
 const pokeExtracted = ref({})
 
@@ -40,18 +46,28 @@ const dynamicClasses = {
 }
 
 function handleCardClick(){
+	//if click in a card while renaming, the route to details will be activated
 	const showInformations = !isRenaming.value
 	
 	if(props.isEditing && showInformations){
 		router.push({ name: 'Details', params: { id: props.pokemon.id } })
 		return
 	}
-	emits('choosePokemon', props.pokemon)
+	isShowingButtons.value = !isShowingButtons.value
 }
 
 
 function removePokemon(){
 	emits('removePokemon', props.pokemonIndex)
+}
+
+function choosePokemon(){
+	isShowingButtons.value = false
+	emits('choosePokemon', props.pokemon)
+}
+
+function goToDetails(){
+	router.push({ name: 'Details', params: { id: props.pokemon.id } })
 }
 
 function toggleRenameModal(){
@@ -82,8 +98,18 @@ function renamePokemon(newPokemonSurname: string){
 
 .is-choosing-container {
 	width: 10rem !important;
-	height: 10rem !important;
-	cursor: pointer;
+	height: 11rem !important;
+	
+	.buttons-container {
+		height: 2.6rem;
+		.choose-button{
+			margin: 0 0.3rem 0 0;
+		}
+		
+		button.details-button {
+			background-color: $primary;
+		}
+	}
 }
 
 .container {

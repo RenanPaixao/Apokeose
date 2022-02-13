@@ -74,7 +74,10 @@ function renamePokemon(newPokemonSurname: string){
 
 <style lang="scss" scoped>
 .is-choosing-image {
-	margin: 0 2rem 1rem auto !important;
+	width: 6rem !important;
+	height: 6rem !important;
+	margin: 0 1rem 1rem auto !important;
+	
 }
 
 .is-choosing-container {
@@ -103,10 +106,10 @@ function renamePokemon(newPokemonSurname: string){
 		align-items: center;
 		
 		.pokemon-image {
-			height: 5rem;
-			width: 5rem;
+			height: 7rem;
+			width: 7rem;
 			
-			margin: 0 1.5rem 0 auto;
+			margin: 0 .5rem 0 auto;
 		}
 		
 		.remove-icon {
@@ -122,6 +125,7 @@ function renamePokemon(newPokemonSurname: string){
 		height: 1rem;
 		font-size: 1rem;
 		font-weight: bold;
+		white-space: nowrap;
 		
 		display: flex;
 		margin: 0.3rem 0 0 1.88rem;

@@ -50,7 +50,8 @@ function listReRender(){
 
 <style lang="scss" scoped>
 .container-team {
-	margin-top: 3rem;
+	max-width: 1440px;
+	margin: 3rem auto 0;
 	display: flex;
 	justify-content: space-around;
 }

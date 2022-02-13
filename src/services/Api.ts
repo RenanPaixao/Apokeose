@@ -8,7 +8,7 @@ interface ListConfig{
 
 class Http{
 	static service = axios.create({
-		baseURL: 'https://pokeapi.co/api/v2/',
+		baseURL: import.meta.env.VITE_BASE_URL as string,
 	})
 	
 	static get(resource: string, config?: AxiosRequestConfig){

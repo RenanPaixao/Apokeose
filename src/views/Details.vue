@@ -80,6 +80,7 @@ onMounted(async() => {
 	height: 19.5rem;
 	width: 19.5rem;
 	border-radius: 50%;
+	box-shadow: 0.3rem -0.3rem 0px 20px $black;
 	margin: 2rem auto;
 	
 	img {

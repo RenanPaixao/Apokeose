@@ -1,23 +1,25 @@
 <template>
 	<div v-if="hasResults">
 		<div v-if="!isFetching" class="more-information-card" @click.stop>
-			<img :src="pokemon.sprite" alt="pokemon"/>
-			<p class="poke-name">Name: {{ pokemon.name }}</p>
-			<div class="list">
-				Abilities:
-				<div>
-					<span v-for="(ability, index) in pokemon.abilities">Ability {{ index + 1 }} : {{
-							ability.ability.name
-						}}</span>
-				</div>
+			<div class="image-background">
+				<img :src="pokemon.sprite" alt="pokemon"/>
 			</div>
-			<div class="list">
-				Stats:
-				<div>
-					<p v-for="(stat) in pokemon.stats" class="stats-list">
-						<span>{{ stat.stat }}</span>
-					</p>
-				</div>
+			<p class="poke-name"> {{ pokemon.name }}</p>
+			<div class="informations-wrapper">
+				<ul>
+					<li v-for="{statName, statPower} in pokemon.stats" class="stat-item">
+						<p class="stat">{{ statName }} <span>{{ statPower }}</span></p>
+						<div class="bar"></div>
+					</li>
+				</ul>
+				<ul class="abilities">
+					<p>Abilities</p>
+					<div>
+						<li class="ability-item" v-for="(ability) in pokemon.abilities">
+							<span>{{ ability }}</span>
+						</li>
+					</div>
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -61,14 +63,9 @@ onMounted(async() => {
 
 <style lang="scss" scoped>
 .more-information-card {
-	@include scrollBar;
-	
 	font-size: 1.2rem;
-	
-	padding: 0 2rem 2rem;
-	
-	background-color: $white;
-	font-family: $roboto;
+	background-color: $background-gray;
+	font-family: $russo;
 	
 	.poke-name {
 		font-size: 2rem;
@@ -76,35 +73,91 @@ onMounted(async() => {
 		text-align: center;
 	}
 	
+}
+
+.image-background {
+	background-color: $white;
+	height: 19.5rem;
+	width: 19.5rem;
+	border-radius: 50%;
+	margin: 2rem auto;
+	
 	img {
 		display: block;
 		height: 20rem;
 		width: 20rem;
 		
 		margin: 2rem auto 0;
+		transform: translateY(12%);
+	}
+}
+
+.informations-wrapper {
+	width: 100%;
+	min-height: 23vh;
+	margin-top: 1.5rem;
+	padding: 3rem 0;
+	
+	
+	display: flex;
+	justify-content: space-around;
+	border-radius: 40px 40px 0 0;
+	background-color: $white;
+	
+	div {
+		margin: auto 0;
+	}
+	
+	ul {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	
+	.stat-item {
+		display: flex;
+		align-items: center;
+		height: 2.9rem;
+		
+		.bar {
+			width: 100px;
+			height: 15px;
+			
+			margin: 2rem;
+			
+			border-radius: 12px;
+			transform: translateY(3px);
+			
+			background-color: brown;
+		}
+	}
+	
+	.abilities {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		
+		p {
+			margin-right: 5rem;
+			color: $low-title;
+		}
+		.ability-item{
+			margin: 1rem;
+		}
 		
 	}
 	
-	.list {
+	.stat {
+		color: $low-title;
 		display: flex;
-		align-items: center;
+		min-width: 250px;
 		
-		
-		div {
-			display: flex;
-			flex-direction: column;
-			padding: 0 2rem;
-			
-			span {
-				padding: 0.5rem 0;
-			}
-			
-			.stats-list {
-				display: flex;
-				flex-direction: column;
-				padding: 0.5rem 0;
-			}
+		span {
+			display: block;
+			margin: 0.5rem 0 0 auto;
+			color: $black;
 		}
+		
 	}
 }
 

@@ -1,7 +1,7 @@
 <template>
 		<div v-if="teamSelected" class="container-navigation-menu">
 			<img alt="back" class="back-arrow" src="../assets/back-arrow.png" @click="goBack">
-			<h2>{{ teamSelected.teamName }} <img v-if="!isInDetailsPage" alt="edit team name" src="../assets/edit.png" @click="toggleModal"></h2>
+			<h2 v-if="!isInDetailsPage">{{ teamSelected.teamName }} <img alt="edit team name" src="../assets/edit.png" @click="toggleModal"></h2>
 			<ActionModal v-if="isRenaming" type="rename" @cancel="toggleModal" @rename="renameTeam"/>
 		</div>
 		<div v-else class="container-navigation-menu">

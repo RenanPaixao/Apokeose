@@ -21,7 +21,7 @@ export interface Pokemon{
 	name: string,
 	order: number,
 	past_types: [],
-	species: {name: string, url: string},
+	species: { name: string, url: string },
 	sprites: Sprites,
 	stats: {
 		base_stat: number,
@@ -39,7 +39,7 @@ export interface Pokemon{
 		}
 	}[],
 	surname?: string,
-	weight: number,
+	weight: number
 }
 
 export interface Team{

@@ -5,9 +5,9 @@ import { capitalize } from '../Common/capitalize'
 interface PokemonStracted{
 	stats: object[],
 	abilities: {
-		ability?: Ability,
-		is_hidden?: boolean,
-		slot?: number
+		ability: Ability,
+		is_hidden: boolean,
+		slot: number
 	}[],
 	types: string,
 	name: string,
@@ -26,12 +26,13 @@ interface Types{
 
 export function pokemonPropertiesExtractor(pokemon: Pokemon): PokemonStracted{
 	const stats = pokemon.stats.reduce((acum: object[], item) => {
-		return [...acum, { stat: `${item.stat.name}: ${item.base_stat}` }]
+		return [...acum, { statName: item.stat.name, statPower: item.base_stat }]
 	}, [])
-	const abilities = pokemon.abilities
+			// @ts-ignore
+	const abilities = pokemon.abilities.map(e => e.ability.name)
 	const types = pokemon.types.reduce((acum: any, types) => {
 		if(!acum){
-			 return types.type.name
+			return types.type.name
 		}
 		return acum + ' | ' + types.type.name
 		

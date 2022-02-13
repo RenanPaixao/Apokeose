@@ -9,7 +9,6 @@ interface ListConfig{
 class Http{
 	static service = axios.create({
 		baseURL: 'https://pokeapi.co/api/v2/',
-		timeout: 2000
 	})
 	
 	static get(resource: string, config?: AxiosRequestConfig){

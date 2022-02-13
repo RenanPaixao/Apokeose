@@ -5,21 +5,23 @@
 				<img :src="pokemon.sprite" alt="pokemon"/>
 			</div>
 			<p class="poke-name"> {{ pokemon.name }}</p>
-			<div class="informations-wrapper">
-				<ul>
-					<li v-for="{statName, statPower} in pokemon.stats" class="stat-item">
-						<p class="stat">{{ statName }} <span>{{ statPower }}</span></p>
-						<div class="bar"></div>
-					</li>
-				</ul>
-				<ul class="abilities">
-					<p>Abilities</p>
-					<div>
-						<li class="ability-item" v-for="(ability) in pokemon.abilities">
-							<span>{{ ability }}</span>
+			<div class="informations-container">
+				<div class="informations-wrapper">
+					<ul>
+						<li v-for="{statName, statPower} in pokemon.stats" class="stat-item">
+							<p class="stat">{{ statName }} <span>{{ statPower }}</span></p>
+							<div class="bar" :style="{'width': `${100+statPower}px`}"></div>
 						</li>
-					</div>
-				</ul>
+					</ul>
+					<ul class="abilities">
+						<p>Abilities</p>
+						<div>
+							<li v-for="(ability) in pokemon.abilities" class="ability-item">
+								<span>{{ ability }}</span>
+							</li>
+						</div>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -92,18 +94,20 @@ onMounted(async() => {
 		transform: translateY(12%);
 	}
 }
-
-.informations-wrapper {
+.informations-container{
 	width: 100%;
+	border-radius: 40px 40px 0 0;
+	background-color: $white;
+}
+.informations-wrapper {
+	max-width: 1440px;
 	min-height: 23vh;
-	margin-top: 1.5rem;
+	margin: 1.5rem auto 0;
 	padding: 3rem 0;
 	
 	
 	display: flex;
 	justify-content: space-around;
-	border-radius: 40px 40px 0 0;
-	background-color: $white;
 	
 	div {
 		margin: auto 0;
@@ -121,7 +125,6 @@ onMounted(async() => {
 		height: 2.9rem;
 		
 		.bar {
-			width: 100px;
 			height: 15px;
 			
 			margin: 2rem;
@@ -142,7 +145,8 @@ onMounted(async() => {
 			margin-right: 5rem;
 			color: $low-title;
 		}
-		.ability-item{
+		
+		.ability-item {
 			margin: 1rem;
 		}
 		

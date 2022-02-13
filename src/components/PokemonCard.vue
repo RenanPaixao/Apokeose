@@ -53,7 +53,9 @@ function handleCardClick(){
 		router.push({ name: 'Details', params: { id: props.pokemon.id } })
 		return
 	}
-	isShowingButtons.value = !isShowingButtons.value
+	if(!isRenaming.value){
+		isShowingButtons.value = !isShowingButtons.value
+	}
 }
 
 

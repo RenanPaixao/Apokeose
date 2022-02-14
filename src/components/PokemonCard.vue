@@ -46,7 +46,7 @@ const dynamicClasses = {
 }
 
 function handleCardClick(){
-	//if click in a card while renaming, the route to details will be activated
+	//Avoid to be redirected after click on a card while is renaming
 	const showInformations = !isRenaming.value
 	
 	if(props.isEditing && showInformations){

@@ -34,7 +34,7 @@
 import { onMounted, ref } from 'vue'
 import { idGenerator } from '../Common/idGenerator'
 import store from '../store'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
 import { pokemonPropertiesExtractor } from '../Common/pokemonPropertiersStractor'
 import Http from '../services/Api'
 
@@ -51,7 +51,9 @@ const pokemon = ref({
 })
 const generateId = idGenerator()
 
-
+onBeforeRouteLeave(()=>{
+	store.dispatch('setSurnameAction', null)
+})
 onMounted(async() => {
 	try{
 		const { data } = await Http.getPokemon(route.params.id)

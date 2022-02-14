@@ -50,7 +50,7 @@ function handleCardClick(){
 	const showInformations = !isRenaming.value
 	
 	if(props.isEditing && showInformations){
-		store.dispatch('setSurnameAction', props.pokemon?.surname ?? null)
+		store.dispatch('setSurnameAction', props.pokemon?.surname || null)
 		goToDetails()
 		return
 	}

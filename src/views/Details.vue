@@ -4,13 +4,13 @@
 			<div class="image-background">
 				<img :src="pokemon.sprite" alt="pokemon"/>
 			</div>
-			<p class="poke-name"> {{ pokemon.name }}</p>
+			<p class="poke-name"> {{ pokemon.name }} {{getSurname()}}</p>
 			<div class="informations-container">
 				<div class="informations-wrapper">
 					<ul>
 						<li v-for="{statName, statPower} in pokemon.stats" class="stat-item">
 							<p class="stat">{{ statName }} <span>{{ statPower }}</span></p>
-							<div class="bar" :style="{'width': `${100+statPower}px`}"></div>
+							<div class="bar" :style="{'width': `${powerBar(statPower)}px`}"></div>
 						</li>
 					</ul>
 					<ul class="abilities">
@@ -33,6 +33,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { idGenerator } from '../Common/idGenerator'
+import store from '../store'
 import { useRoute, useRouter } from 'vue-router'
 import { pokemonPropertiesExtractor } from '../Common/pokemonPropertiersStractor'
 import Http from '../services/Api'
@@ -60,6 +61,20 @@ onMounted(async() => {
 		hasResults.value = false
 	}
 })
+
+function getSurname(){
+	if(store.state.pokemonSelectedSurname){
+		return `(${store.state.pokemonSelectedSurname})`
+	}
+	return ''
+}
+
+function powerBar(statBase: number){
+	if(!statBase){
+		return 0
+	}
+	return 100+statBase
+}
 
 </script>
 

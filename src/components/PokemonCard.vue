@@ -50,7 +50,8 @@ function handleCardClick(){
 	const showInformations = !isRenaming.value
 	
 	if(props.isEditing && showInformations){
-		router.push({ name: 'Details', params: { id: props.pokemon.id } })
+		store.dispatch('setSurnameAction', props.pokemon?.surname ?? null)
+		goToDetails()
 		return
 	}
 	if(!isRenaming.value){

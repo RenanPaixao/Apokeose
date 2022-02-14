@@ -52,5 +52,6 @@ export default interface State{
 	pokemonsList: Pokemon[]
 	teamsList: Team[],
 	teamSelectedId: number | null,
-	isEditting: boolean
+	isEditting: boolean,
+	pokemonSelectedSurname: string | null
 }

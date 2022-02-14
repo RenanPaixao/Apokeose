@@ -17,7 +17,8 @@ export default createStore({
 			pokemonsList: [],
 			teamsList: [],
 			teamSelectedId: null,
-			isEditting: false
+			isEditting: false,
+			pokemonSelectedSurname: null
 		}
 	},
 	getters: {
@@ -29,7 +30,7 @@ export default createStore({
 		},
 		allTeamIds(state: State): number[]{
 			return state.teamsList.map(team => team.id)
-		}
+		},
 	},
 	actions: {
 		updateEditTeam(context, id: number | null): void{
@@ -49,6 +50,9 @@ export default createStore({
 		},
 		removePokemonAction({ commit, getters }, pokemonIndex){
 			commit('removePokemonMutation', pokemonIndex)
+		},
+		setSurnameAction({commit}, surname:string){
+			commit('setSurnameMutation', surname)
 		},
 		renamePokemonAction({
 			                    commit,
@@ -92,6 +96,9 @@ export default createStore({
 		},
 		renamePokemonMutation({ teamsList, teamSelectedId }, { teamIndex, pokemonIndex, newSurname }){
 			teamsList[teamIndex].pokemonsList[pokemonIndex].surname = newSurname
+		},
+		setSurnameMutation(state:State, surname){
+			state.pokemonSelectedSurname = surname
 		},
 		removeTeamMutation({ teamsList }, teamId){
 			const index = teamsList.findIndex((e) => e.id === teamId)

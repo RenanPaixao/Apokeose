@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+$primary: #ED4040;
+$background-gray: #E5E5E5;
+$title-black: #1F1F1F;
+$low-title: #94A4B3;
+$secondary-gray: #969696;
+$white: #FFF;
+$black: #000;
+$primary-blue: #3DADFF;
+$roboto: Roboto;
+$play: Play;
+$russo: Russo One;
+
+.router-link-active {
+  .link-active-menu {
+    width: 50px;
+    height: 4px;
+    padding: 0;
+    margin-left: auto;
+    border-radius: 5px;
+    z-index: 9999;
+
+    background-color: $primary;
+  }
+}
+
+@mixin overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin scrollBar{
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $white;
+    border-radius: 25px;
+    margin: 2rem 0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $primary;
+    border-radius: 25px;
+  }
+}
